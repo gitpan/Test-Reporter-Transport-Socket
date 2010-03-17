@@ -21,7 +21,7 @@ no_index:
 provides:
   Test::Reporter::Transport::Socket:
     file: lib/Test/Reporter/Transport/Socket.pm
-    version: 0.02
+    version: 0.04
 requires:
   Config::Perl::V: 0.11
   IO::Socket::INET: 0
@@ -33,4 +33,4 @@ resources:
   homepage: http://github.com/bingos/test-reporter-transport-socket/tree
   license: http://dev.perl.org/licenses/
   repository: git://github.com/bingos/test-reporter-transport-socket.git
-version: 0.02
+version: 0.04
