@@ -19,12 +19,12 @@ no_index:
     - inc
     - t
 provides:
-  Config::Perl::V:
+  TRTS::Config::Perl::V:
     file: lib/Test/Reporter/Transport/Socket.pm
     version: 0.12
   Test::Reporter::Transport::Socket:
     file: lib/Test/Reporter/Transport/Socket.pm
-    version: 0.06
+    version: 0.08
 requires:
   IO::Socket::INET: 0
   Storable: 0
@@ -35,4 +35,4 @@ resources:
   homepage: http://github.com/bingos/test-reporter-transport-socket/tree
   license: http://dev.perl.org/licenses/
   repository: git://github.com/bingos/test-reporter-transport-socket.git
-version: 0.06
+version: 0.08
