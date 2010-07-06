@@ -1,4 +1,20 @@
 ==============================
+2010-07-06 20:35:14 +0100 0.12
+==============================
+
+  commit 72c6f4bf9612d2cef9226fe34d245e50428b98b0
+  Author: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
+  Date:   Tue Jul 6 20:35:14 2010 +0100
+  
+    Switched dist to Dist::Zilla
+
+  commit d895b8d6d3463a16fb4a1d8fb53a2444901aca90
+  Author: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
+  Date:   Tue Jul 6 16:53:17 2010 +0100
+  
+    Added arrayref option to 'host' parameter. 
+
+==============================
 2010-03-28 12:07:44 +0100 0.10
 ==============================
 
@@ -51,6 +67,6 @@
   
     Had neglected to add distfile to the data we send. 
 
-==============
-End of Excerpt
-==============
+===================================
+End of changes in the last 365 days
+===================================

@@ -1,4 +1,9 @@
 package Test::Reporter::Transport::Socket;
+BEGIN {
+  $Test::Reporter::Transport::Socket::VERSION = '0.12';
+}
+
+# ABSTRACT: Simple socket transport for Test::Reporter
 
 use strict;
 use warnings;
@@ -6,9 +11,6 @@ use Carp ();
 use IO::Socket::INET;
 use Storable qw[nfreeze];
 use base qw[Test::Reporter::Transport];
-use vars qw[$VERSION];
-
-$VERSION ='0.10';
 
 my @required_args = qw/host port/;
 
@@ -22,6 +24,10 @@ sub new {
   for my $k ( @required_args ) {
     Carp::confess __PACKAGE__ . " requires $k argument\n"
       unless exists $args{$k};
+  }
+
+  if ( ref $args{host} eq 'ARRAY' and !scalar @{ $args{host} } ) {
+    Carp::confess __PACKAGE__ . " requires 'host' argument to have elements if it is an arrayref\n";
   }
 
   return bless \%args => $class;
@@ -39,11 +45,16 @@ sub send {
   # Open the socket to the given host:port
   # confess on failure.
 
-  my $sock = IO::Socket::INET->new(
-    PeerAddr => $self->{host},
-    PeerPort => $self->{port},
-    Proto    => 'tcp'
-  );
+  my $sock;
+
+  foreach my $host ( ( ref $self->{host} eq 'ARRAY' ? @{ $self->{host} } : $self->{host} ) ) {
+    $sock = IO::Socket::INET->new(
+      PeerAddr => $host,
+      PeerPort => $self->{port},
+      Proto    => 'tcp'
+    );
+    last if $sock;
+  }
 
   unless ( $sock ) {
     Carp::confess __PACKAGE__ . ": could not connect to '$self->{host}' '$!'\n";
@@ -80,14 +91,16 @@ sub send {
 }
 
 package TRTS::Config::Perl::V;
+BEGIN {
+  $TRTS::Config::Perl::V::VERSION = '0.12';
+}
 
 use strict;
 use warnings;
 
 use Config;
 use Exporter;
-use vars qw($VERSION @ISA @EXPORT_OK %EXPORT_TAGS);
-$VERSION     = "0.12";
+use vars qw(@ISA @EXPORT_OK %EXPORT_TAGS);
 @ISA         = ("Exporter");
 @EXPORT_OK   = qw( plv2hash summary myconfig signature );
 %EXPORT_TAGS = (
@@ -384,11 +397,17 @@ sub myconfig
 
 1;
 
+
 __END__
+=pod
 
 =head1 NAME
 
 Test::Reporter::Transport::Socket - Simple socket transport for Test::Reporter
+
+=head1 VERSION
+
+version 0.12
 
 =head1 SYNOPSIS
 
@@ -437,6 +456,9 @@ Arguments include:
 
 The name or IP address of a host where we want to send our serialised data.
 
+This may also be an arrayref of the above. A connection will be attempted to each
+item in turn until a successful connection is made.
+
 =item C<port>
 
 The TCP port on the above C<host> to send our serialised data.
@@ -465,24 +487,18 @@ The C<send> method transmits the report.
   Richard Dawe (RICHDAWE)
   Chris Williams (BINGOS)
 
-=head1 COPYRIGHT AND LICENSE
-
-  Portions Copyright (c) 2009 by Richard Dawe
-  Portions Copyright (c) 2009-2010 by David A. Golden
-  Portions Copyright (c) 2010 by Chris Williams
-
   This module inlines Config::Perl::V Copyright (C) 2009-2010 H.Merijn Brand
 
-Licensed under the same terms as Perl itself (the "License").
-You may not use this file except in compliance with the License.
-A copy of the License was distributed with this file or you may obtain a
-copy of the License from http://dev.perl.org/licenses/
+=head1 AUTHOR
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+Chris Williams <chris@bingosnet.co.uk>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2010 by David A. Golden, Richard Dawe, Chris Williams and H.Merijn Brand.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
