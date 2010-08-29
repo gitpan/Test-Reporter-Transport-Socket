@@ -1,6 +1,6 @@
 package Test::Reporter::Transport::Socket;
 BEGIN {
-  $Test::Reporter::Transport::Socket::VERSION = '0.12';
+  $Test::Reporter::Transport::Socket::VERSION = '0.14';
 }
 
 # ABSTRACT: Simple socket transport for Test::Reporter
@@ -84,7 +84,8 @@ sub send {
   Carp::confess __PACKAGE__ . ": Could not freeze data '$@'\n"
     unless $froze;
 
-  my $foo = $sock->send( $froze );
+  $sock->send( $froze ) or
+    warn "Could not send data '$!'\n";
   
   close $sock;
   return 1;
@@ -92,7 +93,7 @@ sub send {
 
 package TRTS::Config::Perl::V;
 BEGIN {
-  $TRTS::Config::Perl::V::VERSION = '0.12';
+  $TRTS::Config::Perl::V::VERSION = '0.14';
 }
 
 use strict;
@@ -407,7 +408,7 @@ Test::Reporter::Transport::Socket - Simple socket transport for Test::Reporter
 
 =head1 VERSION
 
-version 0.12
+version 0.14
 
 =head1 SYNOPSIS
 

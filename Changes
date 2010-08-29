@@ -1,4 +1,15 @@
 ==============================
+2010-08-29 18:56:24 +0100 0.14
+==============================
+
+  commit 65d54a1f1bf50ce36e6b74529ad1b6cf95d0ccce
+  Author: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
+  Date:   Sun Aug 29 18:56:24 2010 +0100
+  
+    Added diagnostics when we are sending frozen data over the socket to
+    the relay 
+
+==============================
 2010-07-06 20:35:14 +0100 0.12
 ==============================
 
