@@ -1,4 +1,16 @@
 ==============================
+2010-10-04 12:59:57 +0100 0.16
+==============================
+
+  commit f34dcadadeff787bb8b479fecf79db184d5dcc99
+  Author: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
+  Date:   Mon Oct 4 12:59:57 2010 +0100
+  
+    Tony Cook suggested buffering was the problem behind the errors with
+    metabase-relayd, so we check everything has flushed before closing
+    the socket now 
+
+==============================
 2010-08-29 18:56:24 +0100 0.14
 ==============================
 
