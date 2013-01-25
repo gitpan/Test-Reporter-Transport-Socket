@@ -2,35 +2,35 @@
 use strict;
 use warnings;
 
-BEGIN { require v5.6.0; }
+use 5.006000;
 
-use ExtUtils::MakeMaker 6.31;
+use ExtUtils::MakeMaker 6.30;
 
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'Simple socket transport for Test::Reporter',
-  'AUTHOR' => 'Chris Williams <chris@bingosnet.co.uk>',
-  'BUILD_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.42',
-    'Test::More' => '0.47'
+  "ABSTRACT" => "Simple socket transport for Test::Reporter",
+  "AUTHOR" => "Chris Williams <chris\@bingosnet.co.uk>",
+  "BUILD_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.42",
+    "Test::More" => "0.47"
   },
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.42'
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.42"
   },
-  'DISTNAME' => 'Test-Reporter-Transport-Socket',
-  'EXE_FILES' => [],
-  'LICENSE' => 'perl',
-  'NAME' => 'Test::Reporter::Transport::Socket',
-  'PREREQ_PM' => {
-    'IO::Socket::INET' => '0',
-    'Storable' => '0',
-    'Test::Reporter' => '1.57',
-    'Test::Reporter::Transport' => '1.57'
+  "DISTNAME" => "Test-Reporter-Transport-Socket",
+  "EXE_FILES" => [],
+  "LICENSE" => "perl",
+  "NAME" => "Test::Reporter::Transport::Socket",
+  "PREREQ_PM" => {
+    "IO::Socket::INET" => 0,
+    "Storable" => 0,
+    "Test::Reporter" => "1.57",
+    "Test::Reporter::Transport" => "1.57"
   },
-  'VERSION' => '0.16',
-  'test' => {
-    'TESTS' => 't/*.t'
+  "VERSION" => "0.18",
+  "test" => {
+    "TESTS" => "t/*.t"
   }
 );
 

@@ -3,7 +3,7 @@ NAME
     Test::Reporter
 
 VERSION
-    version 0.16
+    version 0.18
 
 SYNOPSIS
         my $report = Test::Reporter->new(
@@ -77,7 +77,7 @@ AUTHOR
     Chris Williams <chris@bingosnet.co.uk>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2010 by David A. Golden, Richard Dawe,
+    This software is copyright (c) 2013 by David A. Golden, Richard Dawe,
     Chris Williams and H.Merijn Brand.
 
     This is free software; you can redistribute it and/or modify it under

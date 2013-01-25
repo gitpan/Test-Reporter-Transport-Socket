@@ -1,6 +1,6 @@
 package Test::Reporter::Transport::Socket;
-BEGIN {
-  $Test::Reporter::Transport::Socket::VERSION = '0.16';
+{
+  $Test::Reporter::Transport::Socket::VERSION = '0.18';
 }
 
 # ABSTRACT: Simple socket transport for Test::Reporter
@@ -20,7 +20,7 @@ sub new {
     if @_ % 2;
   my %args = @_;
   $args{lc $_} = delete $args{$_} for keys %args;
- 
+
   for my $k ( @required_args ) {
     Carp::confess __PACKAGE__ . " requires $k argument\n"
       unless exists $args{$k};
@@ -96,8 +96,8 @@ sub send {
 }
 
 package TRTS::Config::Perl::V;
-BEGIN {
-  $TRTS::Config::Perl::V::VERSION = '0.16';
+{
+  $TRTS::Config::Perl::V::VERSION = '0.18';
 }
 
 use strict;
@@ -119,8 +119,8 @@ use vars qw(@ISA @EXPORT_OK %EXPORT_TAGS);
 
 # The list are as the perl binary has stored it in PL_bincompat_options
 #  search for it in
-#   perl.c line 1768 (first  block)
-#   perl.h line 4454 (second block),
+#   perl.c line 1661 S_Internals_V ()
+#   perl.h line 4664 (second block),
 my %BTD = map { $_ => 0 } qw(
 
     DEBUGGING
@@ -132,12 +132,17 @@ my %BTD = map { $_ => 0 } qw(
     PERL_MEM_LOG
     PERL_MEM_LOG_ENV
     PERL_MEM_LOG_ENV_FD
+    PERL_MEM_LOG_NOIMPL
     PERL_MEM_LOG_STDERR
     PERL_MEM_LOG_TIMESTAMP
+    PERL_PRESERVE_IVUV
+    PERL_RELOCATABLE_INCPUSH
     PERL_USE_DEVEL
     PERL_USE_SAFE_PUTENV
+    UNLINK_ALL_VERSIONS
     USE_ATTRIBUTES_FOR_PERLIO
     USE_FAST_STDIO
+    USE_LOCALE
     USE_PERL_ATOF
     USE_SITECUSTOMIZE
 
@@ -145,17 +150,23 @@ my %BTD = map { $_ => 0 } qw(
     DEBUG_LEAKING_SCALARS_FORK_DUMP
     DECCRTL_SOCKETS
     FAKE_THREADS
+    FCRYPT
+    HAS_TIMES
     MULTIPLICITY
     MYMALLOC
+    PERLIO_LAYERS
     PERL_DEBUG_READONLY_OPS
     PERL_GLOBAL_STRUCT
     PERL_IMPLICIT_CONTEXT
     PERL_IMPLICIT_SYS
     PERL_MAD
+    PERL_MICRO
     PERL_NEED_APPCTX
     PERL_NEED_TIMESBASE
     PERL_OLD_COPY_ON_WRITE
+    PERL_NEW_COPY_ON_WRITE
     PERL_POISON
+    PERL_SAWAMPERSAND
     PERL_TRACK_MEMPOOL
     PERL_USES_PL_PIDSTATUS
     PL_OP_SLAB_ALLOC
@@ -165,12 +176,15 @@ my %BTD = map { $_ => 0 } qw(
     USE_IEEE
     USE_ITHREADS
     USE_LARGE_FILES
+    USE_LOCALE_COLLATE
+    USE_LOCALE_NUMERIC
     USE_LONG_DOUBLE
     USE_PERLIO
     USE_REENTRANT_API
     USE_SFIO
     USE_SOCKS
     VMS_DO_SOCKETS
+    VMS_SHORTEN_LONG_SYMBOLS
     VMS_SYMBOL_CASE_AS_IS
     );
 
@@ -370,18 +384,31 @@ sub myconfig
     my %args = ref $args eq "HASH"  ? %$args :
                ref $args eq "ARRAY" ? @$args : ();
 
-    #y $pv = qx[$^X -e"sub Config::myconfig{};" -V];
-    my $pv = qx[$^X -V];
-       $pv =~ s{.*?\n\n}{}s;
-       $pv =~ s{\n(?:  \s+|\t\s*)}{ }g;
-
-    #print $pv;
-
     my $build = { %empty_build };
-    $pv =~ m{^\s+Built under (.*)}m                and $build->{osname} = $1;
-    $pv =~ m{^\s+Compiled at (.*)}m                and $build->{stamp}  = $1;
-    $pv =~ m{^\s+Locally applied patches:\s+(.*)}m and $build->{patches} = [ split m/\s+/, $1 ];
-    $pv =~ m{^\s+Compile-time options:\s+(.*)}m    and map { $build->{options}{$_} = 1 } split m/\s+/, $1;
+
+    # 5.14.0 and later provide all the information without shelling out
+    my $stamp = eval { Config::compile_date () };
+    if (defined $stamp) {
+	$stamp =~ s/^Compiled at //;
+	$build->{osname}      = $^O;
+	$build->{stamp}       = $stamp;
+	$build->{patches}     =     [ Config::local_patches () ];
+	$build->{options}{$_} = 1 for Config::bincompat_options (),
+				      Config::non_bincompat_options ();
+	}
+    else {
+	#y $pv = qx[$^X -e"sub Config::myconfig{};" -V];
+	my $pv = qx[$^X -V];
+	   $pv =~ s{.*?\n\n}{}s;
+	   $pv =~ s{\n(?:  \s+|\t\s*)}{ }g;
+
+	#print $pv;
+
+	$pv =~ m{^\s+Built under (.*)}m                and $build->{osname} = $1;
+	$pv =~ m{^\s+Compiled at (.*)}m                and $build->{stamp}  = $1;
+	$pv =~ m{^\s+Locally applied patches:\s+(.*)}m and $build->{patches} = [ split m/\s+/, $1 ];
+	$pv =~ m{^\s+Compile-time options:\s+(.*)}m    and map { $build->{options}{$_} = 1 } split m/\s+/, $1;
+	}
 
     my @KEYS = keys %ENV;
     my %env  =
@@ -402,8 +429,8 @@ sub myconfig
 
 1;
 
-
 __END__
+
 =pod
 
 =head1 NAME
@@ -412,7 +439,7 @@ Test::Reporter::Transport::Socket - Simple socket transport for Test::Reporter
 
 =head1 VERSION
 
-version 0.16
+version 0.18
 
 =head1 SYNOPSIS
 
@@ -500,10 +527,9 @@ Chris Williams <chris@bingosnet.co.uk>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by David A. Golden, Richard Dawe, Chris Williams and H.Merijn Brand.
+This software is copyright (c) 2013 by David A. Golden, Richard Dawe, Chris Williams and H.Merijn Brand.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
