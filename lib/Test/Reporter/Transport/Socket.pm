@@ -1,6 +1,6 @@
 package Test::Reporter::Transport::Socket;
 {
-  $Test::Reporter::Transport::Socket::VERSION = '0.22';
+  $Test::Reporter::Transport::Socket::VERSION = '0.24';
 }
 
 # ABSTRACT: Simple socket transport for Test::Reporter
@@ -97,7 +97,7 @@ sub send {
 
 package TRTS::Config::Perl::V;
 {
-  $TRTS::Config::Perl::V::VERSION = '0.22';
+  $TRTS::Config::Perl::V::VERSION = '0.24';
 }
 
 use strict;
@@ -182,7 +182,6 @@ my %BTD = map { $_ => 0 } qw(
     PERL_NEED_APPCTX
     PERL_NEED_TIMESBASE
     PERL_OLD_COPY_ON_WRITE
-    PERL_NEW_COPY_ON_WRITE
     PERL_POISON
     PERL_SAWAMPERSAND
     PERL_TRACK_MEMPOOL
@@ -461,7 +460,7 @@ Test::Reporter::Transport::Socket - Simple socket transport for Test::Reporter
 
 =head1 VERSION
 
-version 0.22
+version 0.24
 
 =head1 SYNOPSIS
 

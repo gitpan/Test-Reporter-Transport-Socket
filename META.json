@@ -4,7 +4,7 @@
       "Chris Williams <chris@bingosnet.co.uk>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300034, CPAN::Meta::Converter version 2.130880",
+   "generated_by" : "Dist::Zilla version 4.300035, CPAN::Meta::Converter version 2.131560",
    "license" : [
       "perl_5"
    ],
@@ -40,6 +40,12 @@
             "Test::Reporter::Transport" : "1.57",
             "perl" : "v5.6.0"
          }
+      },
+      "test" : {
+         "requires" : {
+            "Capture::Tiny" : "0",
+            "Test::More" : "0.88"
+         }
       }
    },
    "release_status" : "stable",
@@ -51,6 +57,6 @@
          "web" : "https://github.com/bingos/test-reporter-transport-socket"
       }
    },
-   "version" : "0.22"
+   "version" : "0.24"
 }
 
