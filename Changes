@@ -1,6 +1,16 @@
 ==================================================
-Changes from 2008-07-31 00:00:00 +0000 to present.
+Changes from 2008-08-02 00:00:00 +0000 to present.
 ==================================================
+
+-----------------------------------------
+version 0.26 at 2013-08-01 09:10:18 +0000
+-----------------------------------------
+
+  Change: 9eeae1c8384ab245e3a48c2ca43b0c9924471727
+  Author: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
+  Date : 2013-08-01 10:10:18 +0000
+
+    Remove the Test::Compile usage as this was pulling in Capture::Tiny 
 
 -----------------------------------------
 version 0.24 at 2013-07-30 13:19:08 +0000

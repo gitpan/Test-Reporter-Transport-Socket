@@ -40,12 +40,6 @@
             "Test::Reporter::Transport" : "1.57",
             "perl" : "v5.6.0"
          }
-      },
-      "test" : {
-         "requires" : {
-            "Capture::Tiny" : "0",
-            "Test::More" : "0.88"
-         }
       }
    },
    "release_status" : "stable",
@@ -57,6 +51,6 @@
          "web" : "https://github.com/bingos/test-reporter-transport-socket"
       }
    },
-   "version" : "0.24"
+   "version" : "0.26"
 }
 
