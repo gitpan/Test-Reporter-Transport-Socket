@@ -1,8 +1,5 @@
 package Test::Reporter::Transport::Socket;
-{
-  $Test::Reporter::Transport::Socket::VERSION = '0.26';
-}
-
+$Test::Reporter::Transport::Socket::VERSION = '0.28';
 # ABSTRACT: Simple socket transport for Test::Reporter
 
 use strict;
@@ -96,10 +93,7 @@ sub send {
 }
 
 package TRTS::Config::Perl::V;
-{
-  $TRTS::Config::Perl::V::VERSION = '0.26';
-}
-
+$TRTS::Config::Perl::V::VERSION = '0.28';
 use strict;
 use warnings;
 
@@ -119,14 +113,17 @@ use vars qw(@ISA @EXPORT_OK %EXPORT_TAGS);
 
 # The list are as the perl binary has stored it in PL_bincompat_options
 #  search for it in
-#   perl.c line 1669 S_Internals_V ()
-#   perl.h line 4505 PL_bincompat_options
+#   perl.c line 1643 S_Internals_V ()
+#     perl -ne'(/^S_Internals_V/../^}/)&&s/^\s+"( .*)"/$1/ and print' perl.c
+#   perl.h line 4566 PL_bincompat_options
+#     perl -ne'(/^\w.*PL_bincompat/../^\w}/)&&s/^\s+"( .*)"/$1/ and print' perl.h
 my %BTD = map { $_ => 0 } qw(
 
     DEBUGGING
     NO_MATHOMS
     NO_HASH_SEED
     NO_TAINT_SUPPORT
+    PERL_BOOL_AS_CHAR
     PERL_DISABLE_PMC
     PERL_DONT_CREATE_GVSV
     PERL_EXTERNAL_GLOB
@@ -173,6 +170,7 @@ my %BTD = map { $_ => 0 } qw(
     MULTIPLICITY
     MYMALLOC
     PERLIO_LAYERS
+    PERL_DEBUG_READONLY_COW
     PERL_DEBUG_READONLY_OPS
     PERL_GLOBAL_STRUCT
     PERL_IMPLICIT_CONTEXT
@@ -454,13 +452,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Test::Reporter::Transport::Socket - Simple socket transport for Test::Reporter
 
 =head1 VERSION
 
-version 0.26
+version 0.28
 
 =head1 SYNOPSIS
 
@@ -548,7 +548,7 @@ Chris Williams <chris@bingosnet.co.uk>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by David A. Golden, Richard Dawe, Chris Williams and H.Merijn Brand.
+This software is copyright (c) 2014 by David A. Golden, Richard Dawe, Chris Williams and H.Merijn Brand.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
